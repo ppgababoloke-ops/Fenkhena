@@ -107,14 +107,14 @@ html, body{
   box-shadow:0 20px 60px rgba(0,0,0,.6);
 }
 
-/* Bigger Ecclesiastes Verse */
+/* Bigger Verse */
 .verse-slide p{
   font-size:2rem;
   line-height:1.6;
   max-width:800px;
 }
 
-/* Final slide styling */
+/* Final slide */
 .final{
   background:linear-gradient(135deg,#ff5f9e,#ff9a9e);
 }
@@ -189,18 +189,12 @@ button{
   text-shadow:0 0 25px white;
 }
 
-/* Fireworks + Confetti */
+/* Fireworks + petals */
 .confetti{
   position:fixed;
   font-size:22px;
-  animation:explode 1.5s ease-out forwards;
-}
-
-@keyframes explode{
-  to{
-    transform:translate(var(--x), var(--y));
-    opacity:0;
-  }
+  opacity:1;
+  transition:1.5s ease-out;
 }
 
 .fall{
@@ -313,7 +307,7 @@ const days=Math.floor((today-start)/(1000*60*60*24));
 document.getElementById("counter").innerText =
   `We've been making memories for ${days} days 💕`;
 
-/* Start experience */
+/* Start Experience */
 let index=0;
 let slideInterval;
 const slider=document.getElementById("slider");
@@ -331,23 +325,27 @@ document.getElementById("startBtn").addEventListener("click",()=>{
   },5000);
 });
 
-/* Yes Explosion with Fireworks */
+/* YES CLICK */
 document.getElementById("yesBtn").addEventListener("click",()=>{
-  document.getElementById("yesExplosion").classList.add("show");
 
-  /* Radial fireworks burst */
-  for(let i=0;i<80;i++){
+  /* Firework burst */
+  for(let i=0;i<100;i++){
     const conf=document.createElement("div");
     conf.className="confetti";
     conf.innerText="🎆";
     conf.style.left="50vw";
     conf.style.top="50vh";
-    conf.style.setProperty('--x', (Math.random()*800-400)+"px");
-    conf.style.setProperty('--y', (Math.random()*600-300)+"px");
+
+    const x=(Math.random()*800-400);
+    const y=(Math.random()*600-300);
+
+    conf.style.transform=`translate(${x}px, ${y}px)`;
     document.body.appendChild(conf);
+
+    setTimeout(()=>conf.remove(),1500);
   }
 
-  /* Falling romantic petals */
+  /* Falling petals */
   for(let i=0;i<120;i++){
     const el=document.createElement("div");
     el.className="fall";
@@ -355,8 +353,16 @@ document.getElementById("yesBtn").addEventListener("click",()=>{
     el.style.left=Math.random()*100+"vw";
     el.style.animationDuration=3+Math.random()*3+"s";
     document.body.appendChild(el);
+
+    setTimeout(()=>el.remove(),6000);
   }
+
+  /* Show explosion screen slightly after */
+  setTimeout(()=>{
+    document.getElementById("yesExplosion").classList.add("show");
+  },600);
 });
+
 </script>
 
 </body>
