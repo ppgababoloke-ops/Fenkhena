@@ -61,7 +61,6 @@ html, body{
   margin:10px 0 30px 0;
 }
 
-/* BIG PLAY BUTTON */
 #startBtn{
   padding:18px 45px;
   font-size:1.3rem;
@@ -108,6 +107,14 @@ html, body{
   box-shadow:0 20px 60px rgba(0,0,0,.6);
 }
 
+/* Bigger Ecclesiastes Verse */
+.verse-slide p{
+  font-size:2rem;
+  line-height:1.6;
+  max-width:800px;
+}
+
+/* Final slide styling */
 .final{
   background:linear-gradient(135deg,#ff5f9e,#ff9a9e);
 }
@@ -131,7 +138,6 @@ h1{
   font-size:1rem;
 }
 
-/* Button row lifted */
 .button-row{
   display:flex;
   gap:25px;
@@ -158,7 +164,7 @@ button{
   color:#333;
 }
 
-/* Explosion */
+/* Explosion Screen */
 #yesExplosion{
   position:fixed;
   inset:0;
@@ -181,6 +187,20 @@ button{
 #yesExplosion h1{
   font-size:3.5rem;
   text-shadow:0 0 25px white;
+}
+
+/* Fireworks + Confetti */
+.confetti{
+  position:fixed;
+  font-size:22px;
+  animation:explode 1.5s ease-out forwards;
+}
+
+@keyframes explode{
+  to{
+    transform:translate(var(--x), var(--y));
+    opacity:0;
+  }
 }
 
 .fall{
@@ -209,7 +229,7 @@ for(let i=0;i<30;i++){
 }
 </script>
 
-<!-- INTRO WITH PLAY -->
+<!-- INTRO -->
 <div id="intro">
   <h2>A Paseka Production</h2>
   <h1>FENKHENA</h1>
@@ -230,7 +250,7 @@ for(let i=0;i<30;i++){
     <img src="photo1.jpg">
   </div>
 
-  <div class="slide">
+  <div class="slide verse-slide">
     <p>
       “To everything there is a season,
       and a time to every purpose under heaven.”
@@ -311,24 +331,24 @@ document.getElementById("startBtn").addEventListener("click",()=>{
   },5000);
 });
 
-/* Shrink No / Grow Yes */
-let scaleNo=1, scaleYes=1;
-const noBtn=document.getElementById("noBtn");
-const yesBtn=document.getElementById("yesBtn");
-
-noBtn.addEventListener("mouseover",()=>{
-  scaleNo-=0.1;
-  scaleYes+=0.1;
-  if(scaleNo<0.3) scaleNo=0.3;
-  noBtn.style.transform=`scale(${scaleNo})`;
-  yesBtn.style.transform=`scale(${scaleYes})`;
-});
-
-/* Explosion */
-yesBtn.addEventListener("click",()=>{
+/* Yes Explosion with Fireworks */
+document.getElementById("yesBtn").addEventListener("click",()=>{
   document.getElementById("yesExplosion").classList.add("show");
 
-  for(let i=0;i<150;i++){
+  /* Radial fireworks burst */
+  for(let i=0;i<80;i++){
+    const conf=document.createElement("div");
+    conf.className="confetti";
+    conf.innerText="🎆";
+    conf.style.left="50vw";
+    conf.style.top="50vh";
+    conf.style.setProperty('--x', (Math.random()*800-400)+"px");
+    conf.style.setProperty('--y', (Math.random()*600-300)+"px");
+    document.body.appendChild(conf);
+  }
+
+  /* Falling romantic petals */
+  for(let i=0;i<120;i++){
     const el=document.createElement("div");
     el.className="fall";
     el.innerText=Math.random()>0.5?"🌹":"✨";
