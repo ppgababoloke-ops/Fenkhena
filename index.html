@@ -73,18 +73,16 @@ body{
 .slide img, .slide video{
   width:320px;
   border-radius:20px;
-  margin-bottom:20px;
+  margin-top:25px;
   box-shadow:0 20px 60px rgba(0,0,0,.6);
 }
 
 .final{
   background:linear-gradient(135deg,#ff5f9e,#ff9a9e);
-  overflow-y:auto;
 }
 
-h1{font-size:2.6rem;margin-bottom:15px}
-h2{margin-top:10px}
-p{max-width:700px;font-size:1.2rem;line-height:1.6}
+h1{font-size:2.6rem;margin-bottom:20px}
+p{max-width:700px;font-size:1.3rem;line-height:1.6}
 
 button{
   padding:14px 30px;
@@ -99,7 +97,7 @@ button{
 #yesBtn{background:white;color:#ff5f9e}
 #noBtn{background:rgba(255,255,255,.8);color:#333}
 
-#counter{margin:20px 0;font-size:1.2rem}
+#counter{margin:20px 0}
 
 /* EXPLOSION */
 #yesExplosion{
@@ -128,128 +126,4 @@ button{
 /* Falling petals */
 .fall{
   position:fixed;
-  top:-20px;
-  font-size:20px;
-  animation:fall linear forwards;
-}
-
-@keyframes fall{
-  to{transform:translateY(120vh)}
-}
-</style>
-</head>
-<body>
-
-<!-- INTRO -->
-<div id="intro">
-  <h2>A Paseka Production</h2>
-  <h1>FENKHENA</h1>
-</div>
-
-<!-- SLIDES -->
-<div id="slider">
-
-  <div class="slide">
-    <h1>Hi Fenkhena 😍</h1>
-    <img src="photo1.jpg">
-  </div>
-
-  <div class="slide">
-    <p>“To everything there is a season…” – Ecclesiastes 3:1 🤍</p>
-    <img src="photo2.jpg">
-  </div>
-
-  <div class="slide">
-    <h1>We share food 🍽️</h1>
-    <img src="photo3.jpg">
-  </div>
-
-  <div class="slide">
-    <h1>We share smiles 😊</h1>
-    <img src="photo4.jpg">
-  </div>
-
-  <!-- FINAL SLIDE -->
-  <div class="slide final">
-
-    <!-- Muted Background Video -->
-    <video autoplay muted loop playsinline>
-      <source src="video5.mp4" type="video/mp4">
-    </video>
-
-    <!-- Romantic Photo (like the one you showed) -->
-    <img src="photo6.jpg">
-
-    <h1>So why not continue sharing…</h1>
-    <h1>And creating memories together on the 14th?</h1>
-    <h2>Please be my Valentine ❤️</h2>
-
-    <div id="counter"></div>
-
-    <button id="yesBtn">Yes ❤️</button>
-    <button id="noBtn">No</button>
-
-  </div>
-
-</div>
-
-<!-- EXPLOSION SCREEN -->
-<div id="yesExplosion">
-  <h1>💍 DATE CONFIRMED 💖</h1>
-  <p style="margin-top:20px;">Forever starts now 🤍</p>
-</div>
-
-<audio id="bgMusic" autoplay loop>
-  <source src="song.mp3" type="audio/mpeg">
-</audio>
-
-<script>
-
-/* AUTO SLIDE */
-let index=0;
-const slider=document.getElementById("slider");
-setTimeout(()=>{
-  setInterval(()=>{
-    index++;
-    if(index>=5) return;
-    slider.style.transform=`translateX(-${index*100}vw)`;
-  },5000);
-},5000);
-
-/* COUNTER */
-const start=new Date("2025-01-10");
-const today=new Date();
-const days=Math.floor((today-start)/(1000*60*60*24));
-document.getElementById("counter").innerText=
-  `We've been making memories for ${days} days 💕`;
-
-/* SHRINK NO / GROW YES */
-let scaleNo=1, scaleYes=1;
-const noBtn=document.getElementById("noBtn");
-const yesBtn=document.getElementById("yesBtn");
-
-noBtn.addEventListener("mouseover",()=>{
-  scaleNo-=0.1;
-  scaleYes+=0.1;
-  if(scaleNo<0.2) scaleNo=0.2;
-  noBtn.style.transform=`scale(${scaleNo})`;
-  yesBtn.style.transform=`scale(${scaleYes})`;
-});
-
-/* YES EXPLOSION */
-yesBtn.addEventListener("click",()=>{
-  document.getElementById("yesExplosion").classList.add("show");
-
-  for(let i=0;i<200;i++){
-    const el=document.createElement("div");
-    el.className="fall";
-    el.innerText=Math.random()>0.5?"🌹":"✨";
-    el.style.left=Math.random()*100+"vw";
-    el.style.animationDuration=3+Math.random()*3+"s";
-    document.body.appendChild(el);
-  }
-});
-</script>
-
-</body>
-</html>
+  top
