@@ -6,8 +6,15 @@
 <title>For Fenkhena 💖</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html, body{
+  height:100%;
+  overflow:hidden; /* removes all scrollbars */
   font-family:'Segoe UI',sans-serif;
   background:black;
   color:white;
@@ -41,7 +48,7 @@ body{
 /* SLIDER */
 #slider{
   display:flex;
-  width:600vw;
+  width:600vw; /* 6 slides */
   height:100vh;
   transition:1.2s ease;
 }
@@ -58,8 +65,10 @@ body{
   padding:40px;
 }
 
-.slide img, .slide video{
+.slide img,
+.slide video{
   width:320px;
+  max-width:90%;
   border-radius:20px;
   margin-top:25px;
   box-shadow:0 20px 60px rgba(0,0,0,.6);
@@ -69,8 +78,16 @@ body{
   background:linear-gradient(135deg,#ff5f9e,#ff9a9e);
 }
 
-h1{font-size:2.6rem;margin-bottom:20px}
-p{max-width:700px;font-size:1.3rem;line-height:1.6}
+h1{
+  font-size:2.6rem;
+  margin-bottom:20px;
+}
+
+p{
+  max-width:700px;
+  font-size:1.3rem;
+  line-height:1.6;
+}
 
 button{
   padding:14px 30px;
@@ -82,12 +99,21 @@ button{
   transition:.3s;
 }
 
-#yesBtn{background:white;color:#ff5f9e}
-#noBtn{background:rgba(255,255,255,.8);color:#333}
+#yesBtn{
+  background:white;
+  color:#ff5f9e;
+}
 
-#counter{margin:20px 0}
+#noBtn{
+  background:rgba(255,255,255,.8);
+  color:#333;
+}
 
-/* EXPLOSION */
+#counter{
+  margin:20px 0;
+}
+
+/* EXPLOSION SCREEN */
 #yesExplosion{
   position:fixed;
   inset:0;
@@ -111,6 +137,7 @@ button{
   text-shadow:0 0 25px white;
 }
 
+/* Falling petals */
 .fall{
   position:fixed;
   top:-20px;
@@ -125,11 +152,13 @@ button{
 </head>
 <body>
 
+<!-- INTRO -->
 <div id="intro">
   <h2>A Paseka Production</h2>
   <h1>FENKHENA</h1>
 </div>
 
+<!-- SLIDER -->
 <div id="slider">
 
   <!-- 1 -->
@@ -166,7 +195,7 @@ button{
     <img src="photo4.jpg">
   </div>
 
-  <!-- 5 VIDEO -->
+  <!-- 5 VIDEO (replaces photo5) -->
   <div class="slide">
     <h1>We share the Gospel ✝️</h1>
     <video autoplay muted loop playsinline>
@@ -177,6 +206,7 @@ button{
   <!-- 6 FINAL -->
   <div class="slide final">
 
+    <!-- Added photo above question -->
     <img src="photo6.jpg">
 
     <h1>So why not continue sharing…</h1>
@@ -192,18 +222,20 @@ button{
 
 </div>
 
+<!-- YES EXPLOSION -->
 <div id="yesExplosion">
   <h1>💍 DATE CONFIRMED 💖</h1>
   <p style="margin-top:20px;">Forever starts now 🤍</p>
 </div>
 
-<audio id="bgMusic" autoplay loop>
+<!-- MUSIC (starts on first click) -->
+<audio id="bgMusic" loop>
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-/* REMOVE INTRO AFTER 3 SECONDS */
+/* Remove intro after 3 seconds */
 setTimeout(()=>{
   document.getElementById("intro").style.display="none";
 },3000);
@@ -222,7 +254,7 @@ setInterval(()=>{
 const start=new Date("2022-01-29");
 const today=new Date();
 const days=Math.floor((today-start)/(1000*60*60*24));
-document.getElementById("counter").innerText=
+document.getElementById("counter").innerText =
   `We've been making memories for ${days} days 💕`;
 
 /* SHRINK NO / GROW YES */
@@ -238,7 +270,7 @@ noBtn.addEventListener("mouseover",()=>{
   yesBtn.style.transform=`scale(${scaleYes})`;
 });
 
-/* YES EXPLOSION */
+/* YES CLICK */
 yesBtn.addEventListener("click",()=>{
   document.getElementById("yesExplosion").classList.add("show");
 
@@ -251,6 +283,15 @@ yesBtn.addEventListener("click",()=>{
     document.body.appendChild(el);
   }
 });
+
+/* Start music on first click (browser-safe) */
+const music=document.getElementById("bgMusic");
+document.addEventListener("click",function startMusic(){
+  music.volume=0.5;
+  music.play();
+  document.removeEventListener("click",startMusic);
+});
+
 </script>
 
 </body>
