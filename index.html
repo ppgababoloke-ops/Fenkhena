@@ -20,14 +20,14 @@ html, body{
   color:white;
 }
 
-/* Floating hearts background */
+/* Floating Hearts */
 .heart{
   position:fixed;
   bottom:-20px;
   font-size:18px;
   opacity:0.35;
   animation:floatUp linear infinite;
-  pointer-events:none; /* IMPORTANT */
+  pointer-events:none;
   z-index:0;
 }
 
@@ -96,13 +96,14 @@ html, body{
   background:linear-gradient(135deg,#ff5f9e,#ff9a9e);
 }
 
+/* Text sizing */
 h1{
   font-size:2.6rem;
   margin-bottom:20px;
 }
 
 .final h1{
-  font-size:1.8rem;
+  font-size:1.7rem;
 }
 
 .final h2{
@@ -111,19 +112,20 @@ h1{
 }
 
 #counter{
-  margin:15px 0;
+  margin:15px 0 10px 0;
   font-size:1rem;
 }
 
-/* Buttons side by side */
+/* Button Row - lifted upward */
 .button-row{
   display:flex;
-  gap:20px;
-  margin-top:10px;
+  gap:25px;
+  margin-top:15px;
+  margin-bottom:80px; /* LIFTS BUTTONS UP */
 }
 
 button{
-  padding:12px 28px;
+  padding:12px 30px;
   font-size:1rem;
   border:none;
   border-radius:999px;
@@ -137,7 +139,7 @@ button{
 }
 
 #noBtn{
-  background:rgba(255,255,255,.85);
+  background:rgba(255,255,255,.9);
   color:#333;
 }
 
@@ -263,13 +265,26 @@ for(let i=0;i<30;i++){
   <p style="margin-top:20px;">Forever starts now 🤍</p>
 </div>
 
+<!-- MUSIC (PLAYS FROM START) -->
 <audio id="bgMusic" loop>
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-/* Remove intro */
+/* Start music immediately */
+const music=document.getElementById("bgMusic");
+window.addEventListener("load",()=>{
+  music.volume=0.5;
+  const promise = music.play();
+  if(promise !== undefined){
+    promise.catch(()=>{
+      document.addEventListener("click",()=>music.play(),{once:true});
+    });
+  }
+});
+
+/* Remove intro after 3 seconds */
 setTimeout(()=>{
   document.getElementById("intro").style.display="none";
 },3000);
@@ -304,7 +319,7 @@ noBtn.addEventListener("mouseover",()=>{
   yesBtn.style.transform=`scale(${scaleYes})`;
 });
 
-/* Yes Explosion */
+/* Explosion */
 yesBtn.addEventListener("click",()=>{
   document.getElementById("yesExplosion").classList.add("show");
 
@@ -315,18 +330,6 @@ yesBtn.addEventListener("click",()=>{
     el.style.left=Math.random()*100+"vw";
     el.style.animationDuration=3+Math.random()*3+"s";
     document.body.appendChild(el);
-  }
-});
-
-/* Autoplay music (browser-safe) */
-const music=document.getElementById("bgMusic");
-window.addEventListener("load",()=>{
-  music.volume=0.5;
-  const playPromise = music.play();
-  if(playPromise !== undefined){
-    playPromise.catch(()=>{
-      document.addEventListener("click",()=>music.play(),{once:true});
-    });
   }
 });
 </script>
