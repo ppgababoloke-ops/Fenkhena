@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Fenkhena 💖</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Segoe UI',sans-serif;
+  background:black;
+  color:white;
+  overflow:hidden;
+}
+
+/* INTRO */
+#intro{
+  position:fixed;
+  inset:0;
+  background:black;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  animation:fadeOut 4s forwards 3s;
+}
+
+#intro h2{
+  font-size:1rem;
+  letter-spacing:4px;
+  opacity:.7;
+}
+
+#intro h1{
+  font-size:3rem;
+  color:#ff004c;
+  letter-spacing:6px;
+  margin-top:10px;
+  animation:zoom 3s ease;
+}
+
+@keyframes zoom{
+  0%{transform:scale(.5);opacity:0}
+  100%{transform:scale(1);opacity:1}
+}
+
+@keyframes fadeOut{
+  to{opacity:0;visibility:hidden}
+}
+
+/* SLIDES */
+#slider{
+  display:flex;
+  width:600vw;
+  height:100vh;
+  transition:1.2s ease;
+}
+
+.slide{
+  width:100vw;
+  height:100vh;
+  flex-shrink:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:40px;
+  position:relative;
+}
+
+.slide img{
+  width:300px;
+  border-radius:20px;
+  margin-top:30px;
+  filter:blur(10px);
+  opacity:0;
+  transition:1.2s ease;
+}
+
+.slide.active img{
+  filter:blur(0);
+  opacity:1;
+}
+
+.final{
+  background:linear-gradient(135deg,#ff5f9e,#ff9a9e);
+}
+
+h1{font-size:2.6rem;margin-bottom:20px}
+p{max-width:700px;font-size:1.3rem;line-height:1.6}
+
+button{
+  padding:14px 30px;
+  font-size:1.1rem;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+  margin:10px;
+  transition:.3s;
+}
+
+#yesBtn{background:white;color:#ff5f9e}
+#noBtn{background:rgba(255,255,255,.8);color:#333}
+
+#counter{margin:20px 0}
+
+/* YES SCREEN */
+#yesPanel{
+  position:fixed;
+  inset:0;
+  background:black;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:1s;
+}
+
+#yesPanel.show{
+  opacity:1;
+  pointer-events:auto;
+}
+
+/* HEARTS */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  opacity:.4;
+  animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(0)}
+  to{transform:translateY(-120vh)}
+}
+</style>
+</head>
+<body>
+
+<!-- INTRO -->
+<div id="intro">
+  <h2>A Paseka Production</h2>
+  <h1>FENKHENA</h1>
+</div>
+
+<!-- SLIDER -->
+<div id="slider">
+
+  <div class="slide active">
+    <h1>Hi Fenkhena 😍</h1>
+    <p>
+      Love brought us together.
+      Not social media.
+      Just the same place… same time ❤️
+    </p>
+    <img src="photo1.jpg">
+  </div>
+
+  <div class="slide">
+    <p>You know why?</p>
+    <p style="margin-top:20px;font-style:italic">
+      “To everything there is a season,
+      and a time to every purpose under heaven.”
+      – Ecclesiastes 3:1 🤍
+    </p>
+    <img src="photo2.jpg">
+  </div>
+
+  <div class="slide">
+    <h1>We share food 🍽️</h1>
+    <img src="photo3.jpg">
+  </div>
+
+  <div class="slide">
+    <h1>We share smiles 😊</h1>
+    <img src="photo4.jpg">
+  </div>
+
+  <div class="slide">
+    <h1>We share the Gospel ✝️</h1>
+    <img src="photo5.jpg">
+  </div>
+
+  <div class="slide final">
+    <h1>So why not continue sharing…</h1>
+    <h1>And creating memories together on the 14th?</h1>
+    <div id="counter"></div>
+    <button id="yesBtn">Yes ❤️</button>
+    <button id="noBtn">No</button>
+  </div>
+
+</div>
+
+<div id="yesPanel">
+  <h1>There was never another answer 🤍</h1>
+  <p>Happy Valentine’s Day, my love.</p>
+</div>
+
+<audio id="music" loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* AUTO SLIDE */
+let index=0;
+const slides=document.querySelectorAll(".slide");
+const slider=document.getElementById("slider");
+
+function nextSlide(){
+  index++;
+  if(index>=slides.length) return;
+  slider.style.transform=`translateX(-${index*100}vw)`;
+  slides[index].classList.add("active");
+}
+setTimeout(()=>{
+  setInterval(nextSlide,5000);
+},5000);
+
+/* COUNTER */
+const start=new Date("2022-01-29");
+const today=new Date();
+const days=Math.floor((today-start)/(1000*60*60*24));
+document.getElementById("counter").innerText=
+  `We've been making memories for ${days} days 💕`;
+
+/* SHRINK NO + GROW YES */
+let scaleNo=1, scaleYes=1;
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
+
+noBtn.addEventListener("mouseover",()=>{
+  scaleNo-=0.1;
+  scaleYes+=0.1;
+  if(scaleNo<0.2) scaleNo=0.2;
+  noBtn.style.transform=`scale(${scaleNo})`;
+  yesBtn.style.transform=`scale(${scaleYes})`;
+});
+
+/* YES CLICK */
+yesBtn.addEventListener("click",()=>{
+  document.getElementById("yesPanel").classList.add("show");
+
+  const music=document.getElementById("music");
+  music.volume=0;
+  music.play();
+  let fade=setInterval(()=>{
+    if(music.volume<0.5) music.volume+=0.02;
+    else clearInterval(fade);
+  },200);
+
+  for(let i=0;i<120;i++){
+    const c=document.createElement("div");
+    c.innerText="💖";
+    c.style.position="fixed";
+    c.style.left=Math.random()*100+"vw";
+    c.style.top="-10px";
+    c.style.animation="floatUp 5s linear forwards";
+    document.body.appendChild(c);
+  }
+});
+
+/* FLOATING HEARTS */
+for(let i=0;i<30;i++){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText="💘";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=8+Math.random()*8+"s";
+  document.body.appendChild(h);
+}
+
+/* EASTER EGG */
+document.addEventListener("keydown",(e)=>{
+  if(e.key==="p"){
+    alert("Plato loves you beyond words 🤍");
+  }
+});
+</script>
+
+</body>
+</html>
