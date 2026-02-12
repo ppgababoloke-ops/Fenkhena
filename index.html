@@ -14,10 +14,26 @@
 
 html, body{
   height:100%;
-  overflow:hidden; /* removes all scrollbars */
+  overflow:hidden;
   font-family:'Segoe UI',sans-serif;
   background:black;
   color:white;
+}
+
+/* Floating hearts background */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:18px;
+  opacity:0.4;
+  animation:floatUp linear infinite;
+  pointer-events:none;
+  z-index:0;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(0)}
+  to{transform:translateY(-120vh)}
 }
 
 /* INTRO */
@@ -48,9 +64,11 @@ html, body{
 /* SLIDER */
 #slider{
   display:flex;
-  width:600vw; /* 6 slides */
+  width:600vw;
   height:100vh;
   transition:1.2s ease;
+  position:relative;
+  z-index:1;
 }
 
 .slide{
@@ -83,6 +101,15 @@ h1{
   margin-bottom:20px;
 }
 
+.final h1{
+  font-size:1.9rem; /* reduced size */
+}
+
+.final h2{
+  font-size:1.3rem;
+  margin-top:10px;
+}
+
 p{
   max-width:700px;
   font-size:1.3rem;
@@ -90,12 +117,12 @@ p{
 }
 
 button{
-  padding:14px 30px;
-  font-size:1.1rem;
+  padding:12px 26px;
+  font-size:1rem;
   border:none;
   border-radius:999px;
   cursor:pointer;
-  margin:10px;
+  margin:8px;
   transition:.3s;
 }
 
@@ -110,10 +137,11 @@ button{
 }
 
 #counter{
-  margin:20px 0;
+  margin:15px 0;
+  font-size:1rem;
 }
 
-/* EXPLOSION SCREEN */
+/* EXPLOSION */
 #yesExplosion{
   position:fixed;
   inset:0;
@@ -133,11 +161,10 @@ button{
 }
 
 #yesExplosion h1{
-  font-size:4rem;
+  font-size:3.5rem;
   text-shadow:0 0 25px white;
 }
 
-/* Falling petals */
 .fall{
   position:fixed;
   top:-20px;
@@ -152,6 +179,18 @@ button{
 </head>
 <body>
 
+<!-- Floating Hearts Script Generated -->
+<script>
+for(let i=0;i<30;i++){
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText="💘";
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=8+Math.random()*8+"s";
+  document.body.appendChild(h);
+}
+</script>
+
 <!-- INTRO -->
 <div id="intro">
   <h2>A Paseka Production</h2>
@@ -161,7 +200,6 @@ button{
 <!-- SLIDER -->
 <div id="slider">
 
-  <!-- 1 -->
   <div class="slide">
     <h1>Hi Fenkhena 😍</h1>
     <p>
@@ -173,7 +211,6 @@ button{
     <img src="photo1.jpg">
   </div>
 
-  <!-- 2 -->
   <div class="slide">
     <p>
       “To everything there is a season,
@@ -183,19 +220,16 @@ button{
     <img src="photo2.jpg">
   </div>
 
-  <!-- 3 -->
   <div class="slide">
     <h1>We share food 🍽️</h1>
     <img src="photo3.jpg">
   </div>
 
-  <!-- 4 -->
   <div class="slide">
     <h1>We share smiles 😊</h1>
     <img src="photo4.jpg">
   </div>
 
-  <!-- 5 VIDEO (replaces photo5) -->
   <div class="slide">
     <h1>We share the Gospel ✝️</h1>
     <video autoplay muted loop playsinline>
@@ -203,15 +237,13 @@ button{
     </video>
   </div>
 
-  <!-- 6 FINAL -->
   <div class="slide final">
 
-    <!-- Added photo above question -->
     <img src="photo6.jpg">
 
     <h1>So why not continue sharing…</h1>
     <h1>And creating memories together on the 14th?</h1>
-    <h2 style="margin-top:15px;">Please be my Valentine ❤️</h2>
+    <h2>Please be my Valentine ❤️</h2>
 
     <div id="counter"></div>
 
@@ -222,25 +254,24 @@ button{
 
 </div>
 
-<!-- YES EXPLOSION -->
 <div id="yesExplosion">
   <h1>💍 DATE CONFIRMED 💖</h1>
   <p style="margin-top:20px;">Forever starts now 🤍</p>
 </div>
 
-<!-- MUSIC (starts on first click) -->
-<audio id="bgMusic" loop>
+<!-- Autoplay Music -->
+<audio autoplay loop>
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 
-/* Remove intro after 3 seconds */
+/* Remove intro */
 setTimeout(()=>{
   document.getElementById("intro").style.display="none";
 },3000);
 
-/* AUTO SLIDE */
+/* Auto slide */
 let index=0;
 const slider=document.getElementById("slider");
 
@@ -250,14 +281,14 @@ setInterval(()=>{
   slider.style.transform=`translateX(-${index*100}vw)`;
 },5000);
 
-/* COUNTER */
+/* Counter */
 const start=new Date("2022-01-29");
 const today=new Date();
 const days=Math.floor((today-start)/(1000*60*60*24));
 document.getElementById("counter").innerText =
   `We've been making memories for ${days} days 💕`;
 
-/* SHRINK NO / GROW YES */
+/* Shrink No / Grow Yes */
 let scaleNo=1, scaleYes=1;
 const noBtn=document.getElementById("noBtn");
 const yesBtn=document.getElementById("yesBtn");
@@ -270,7 +301,7 @@ noBtn.addEventListener("mouseover",()=>{
   yesBtn.style.transform=`scale(${scaleYes})`;
 });
 
-/* YES CLICK */
+/* Explosion */
 yesBtn.addEventListener("click",()=>{
   document.getElementById("yesExplosion").classList.add("show");
 
@@ -283,15 +314,6 @@ yesBtn.addEventListener("click",()=>{
     document.body.appendChild(el);
   }
 });
-
-/* Start music on first click (browser-safe) */
-const music=document.getElementById("bgMusic");
-document.addEventListener("click",function startMusic(){
-  music.volume=0.5;
-  music.play();
-  document.removeEventListener("click",startMusic);
-});
-
 </script>
 
 </body>
