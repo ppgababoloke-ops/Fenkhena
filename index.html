@@ -81,16 +81,19 @@ html,body{
   text-align:center;
   padding:40px;
 }
+
+/* Responsive media */
 .slide img,
 .slide video{
-  width:320px;
-  max-width:90%;
+  width:90%;
+  max-width:420px;
+  height:auto;
   border-radius:20px;
   margin-top:25px;
   box-shadow:0 20px 60px rgba(0,0,0,.6);
 }
 
-/* GLOWING VERSE */
+/* Glowing Verse */
 .verse-slide p{
   font-size:2rem;
   line-height:1.6;
@@ -114,6 +117,7 @@ html,body{
   margin-top:15px;
   margin-bottom:80px;
 }
+
 button{
   padding:12px 30px;
   font-size:1rem;
@@ -122,10 +126,11 @@ button{
   cursor:pointer;
   transition:.3s;
 }
+
 #yesBtn{background:white;color:#ff5f9e}
 #noBtn{background:rgba(255,255,255,.9);color:#333}
 
-/* Explosion Screen */
+/* Explosion */
 #yesExplosion{
   position:fixed;
   inset:0;
@@ -148,7 +153,7 @@ button{
   text-shadow:0 0 25px white;
 }
 
-/* CONFETTI */
+/* Confetti */
 .confetti{
   position:fixed;
   font-size:24px;
@@ -173,6 +178,15 @@ button{
 }
 @keyframes fall{
   to{transform:translateY(120vh)}
+}
+
+/* MOBILE TEXT TWEAKS */
+@media (max-width:768px){
+  h1{font-size:1.8rem}
+  .verse-slide p{font-size:1.4rem}
+  .final h1{font-size:1.4rem}
+  .final h2{font-size:1rem}
+  .button-row{gap:15px}
 }
 </style>
 </head>
@@ -238,27 +252,23 @@ for(let i=0;i<30;i++){
   </div>
 
   <div class="slide final">
-
     <img src="photo6.jpg">
-
     <h1>So why not continue sharing…</h1>
     <h1>And creating memories together on the 14th?</h1>
     <h2>Please be my Valentine ❤️</h2>
-
     <div id="counter"></div>
 
     <div class="button-row">
       <button id="yesBtn">Yes ❤️</button>
       <button id="noBtn">No</button>
     </div>
-
   </div>
 
 </div>
 
 <div id="yesExplosion">
-  <h1>There was never another answer 💖</h1>
-  <p style="margin-top:20px;">Happy Valentine’s Day, my love.</p>
+  <h1>💍 DATE CONFIRMED 💖</h1>
+  <p style="margin-top:20px;">Forever starts now 🤍</p>
 </div>
 
 <audio id="bgMusic" loop>
@@ -268,7 +278,7 @@ for(let i=0;i<30;i++){
 <script>
 
 /* Counter */
-const start=new Date("2025-01-10");
+const start=new Date("2022-01-29");
 const today=new Date();
 const days=Math.floor((today-start)/(1000*60*60*24));
 document.getElementById("counter").innerText =
@@ -292,14 +302,14 @@ document.getElementById("startBtn").addEventListener("click",()=>{
   },5000);
 });
 
-/* Shrink No / Grow Yes (RESTORED) */
+/* CLICK SHRINK/GROW */
 let scaleNo=1;
 let scaleYes=1;
 
 const noBtn=document.getElementById("noBtn");
 const yesBtn=document.getElementById("yesBtn");
 
-noBtn.addEventListener("mouseover",()=>{
+noBtn.addEventListener("click",()=>{
   scaleNo -= 0.1;
   scaleYes += 0.1;
 
@@ -309,30 +319,20 @@ noBtn.addEventListener("mouseover",()=>{
   yesBtn.style.transform = `scale(${scaleYes})`;
 });
 
-/* YES CLICK = CONFETTI */
+/* YES CONFETTI */
 yesBtn.addEventListener("click",()=>{
-
-  /* Fireworks burst */
   for(let i=0;i<120;i++){
     const conf=document.createElement("div");
     conf.className="confetti";
     conf.innerText="🎆";
-
     conf.style.left="50vw";
     conf.style.top="50vh";
-
-    const x=(Math.random()*900-450)+"px";
-    const y=(Math.random()*700-350)+"px";
-
-    conf.style.setProperty("--x", x);
-    conf.style.setProperty("--y", y);
-
+    conf.style.setProperty("--x",(Math.random()*900-450)+"px");
+    conf.style.setProperty("--y",(Math.random()*700-350)+"px");
     document.body.appendChild(conf);
-
     setTimeout(()=>conf.remove(),1500);
   }
 
-  /* Falling petals */
   for(let i=0;i<120;i++){
     const el=document.createElement("div");
     el.className="fall";
@@ -340,15 +340,12 @@ yesBtn.addEventListener("click",()=>{
     el.style.left=Math.random()*100+"vw";
     el.style.animationDuration=3+Math.random()*3+"s";
     document.body.appendChild(el);
-
     setTimeout(()=>el.remove(),6000);
   }
 
-  /* Show explosion slightly after */
   setTimeout(()=>{
     document.getElementById("yesExplosion").classList.add("show");
   },600);
-
 });
 </script>
 
