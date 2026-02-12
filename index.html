@@ -58,7 +58,23 @@ html, body{
   font-size:3rem;
   color:#ff004c;
   letter-spacing:6px;
-  margin-top:10px;
+  margin:10px 0 30px 0;
+}
+
+/* BIG PLAY BUTTON */
+#startBtn{
+  padding:18px 45px;
+  font-size:1.3rem;
+  border:none;
+  border-radius:999px;
+  background:white;
+  color:#ff004c;
+  cursor:pointer;
+  transition:.3s;
+}
+
+#startBtn:hover{
+  transform:scale(1.1);
 }
 
 /* SLIDER */
@@ -96,7 +112,6 @@ html, body{
   background:linear-gradient(135deg,#ff5f9e,#ff9a9e);
 }
 
-/* Text sizing */
 h1{
   font-size:2.6rem;
   margin-bottom:20px;
@@ -116,12 +131,12 @@ h1{
   font-size:1rem;
 }
 
-/* Button Row - lifted upward */
+/* Button row lifted */
 .button-row{
   display:flex;
   gap:25px;
   margin-top:15px;
-  margin-bottom:80px; /* LIFTS BUTTONS UP */
+  margin-bottom:80px;
 }
 
 button{
@@ -168,7 +183,6 @@ button{
   text-shadow:0 0 25px white;
 }
 
-/* Falling petals */
 .fall{
   position:fixed;
   top:-20px;
@@ -195,10 +209,11 @@ for(let i=0;i<30;i++){
 }
 </script>
 
-<!-- INTRO -->
+<!-- INTRO WITH PLAY -->
 <div id="intro">
   <h2>A Paseka Production</h2>
   <h1>FENKHENA</h1>
+  <button id="startBtn">▶ Start</button>
 </div>
 
 <!-- SLIDER -->
@@ -265,39 +280,11 @@ for(let i=0;i<30;i++){
   <p style="margin-top:20px;">Forever starts now 🤍</p>
 </div>
 
-<!-- MUSIC (PLAYS FROM START) -->
 <audio id="bgMusic" loop>
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-
-/* Start music immediately */
-const music=document.getElementById("bgMusic");
-window.addEventListener("load",()=>{
-  music.volume=0.5;
-  const promise = music.play();
-  if(promise !== undefined){
-    promise.catch(()=>{
-      document.addEventListener("click",()=>music.play(),{once:true});
-    });
-  }
-});
-
-/* Remove intro after 3 seconds */
-setTimeout(()=>{
-  document.getElementById("intro").style.display="none";
-},3000);
-
-/* Auto slide */
-let index=0;
-const slider=document.getElementById("slider");
-
-setInterval(()=>{
-  index++;
-  if(index>=6) return;
-  slider.style.transform=`translateX(-${index*100}vw)`;
-},5000);
 
 /* Counter */
 const start=new Date("2022-01-29");
@@ -305,6 +292,24 @@ const today=new Date();
 const days=Math.floor((today-start)/(1000*60*60*24));
 document.getElementById("counter").innerText =
   `We've been making memories for ${days} days 💕`;
+
+/* Start experience */
+let index=0;
+let slideInterval;
+const slider=document.getElementById("slider");
+const music=document.getElementById("bgMusic");
+
+document.getElementById("startBtn").addEventListener("click",()=>{
+  music.volume=0.5;
+  music.play();
+  document.getElementById("intro").style.display="none";
+
+  slideInterval=setInterval(()=>{
+    index++;
+    if(index>=6) return;
+    slider.style.transform=`translateX(-${index*100}vw)`;
+  },5000);
+});
 
 /* Shrink No / Grow Yes */
 let scaleNo=1, scaleYes=1;
