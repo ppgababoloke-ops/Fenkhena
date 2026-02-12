@@ -11,7 +11,6 @@ body{
   font-family:'Segoe UI',sans-serif;
   background:black;
   color:white;
-  overflow:hidden;
 }
 
 /* INTRO */
@@ -24,7 +23,6 @@ body{
   align-items:center;
   justify-content:center;
   z-index:9999;
-  animation:fadeOut 4s forwards 3s;
 }
 
 #intro h2{
@@ -38,16 +36,6 @@ body{
   color:#ff004c;
   letter-spacing:6px;
   margin-top:10px;
-  animation:zoom 3s ease;
-}
-
-@keyframes zoom{
-  0%{transform:scale(.5);opacity:0}
-  100%{transform:scale(1);opacity:1}
-}
-
-@keyframes fadeOut{
-  to{opacity:0;visibility:hidden}
 }
 
 /* SLIDER */
@@ -123,7 +111,147 @@ button{
   text-shadow:0 0 25px white;
 }
 
-/* Falling petals */
 .fall{
   position:fixed;
-  top
+  top:-20px;
+  font-size:20px;
+  animation:fall linear forwards;
+}
+
+@keyframes fall{
+  to{transform:translateY(120vh)}
+}
+</style>
+</head>
+<body>
+
+<div id="intro">
+  <h2>A Paseka Production</h2>
+  <h1>FENKHENA</h1>
+</div>
+
+<div id="slider">
+
+  <!-- 1 -->
+  <div class="slide">
+    <h1>Hi Fenkhena 😍</h1>
+    <p>
+      Love is what brought us together.
+      Not social media.
+      Not coincidence.
+      Just the same place… same time ❤️
+    </p>
+    <img src="photo1.jpg">
+  </div>
+
+  <!-- 2 -->
+  <div class="slide">
+    <p>
+      “To everything there is a season,
+      and a time to every purpose under heaven.”
+      – Ecclesiastes 3:1 🤍
+    </p>
+    <img src="photo2.jpg">
+  </div>
+
+  <!-- 3 -->
+  <div class="slide">
+    <h1>We share food 🍽️</h1>
+    <img src="photo3.jpg">
+  </div>
+
+  <!-- 4 -->
+  <div class="slide">
+    <h1>We share smiles 😊</h1>
+    <img src="photo4.jpg">
+  </div>
+
+  <!-- 5 VIDEO -->
+  <div class="slide">
+    <h1>We share the Gospel ✝️</h1>
+    <video autoplay muted loop playsinline>
+      <source src="video5.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- 6 FINAL -->
+  <div class="slide final">
+
+    <img src="photo6.jpg">
+
+    <h1>So why not continue sharing…</h1>
+    <h1>And creating memories together on the 14th?</h1>
+    <h2 style="margin-top:15px;">Please be my Valentine ❤️</h2>
+
+    <div id="counter"></div>
+
+    <button id="yesBtn">Yes ❤️</button>
+    <button id="noBtn">No</button>
+
+  </div>
+
+</div>
+
+<div id="yesExplosion">
+  <h1>💍 DATE CONFIRMED 💖</h1>
+  <p style="margin-top:20px;">Forever starts now 🤍</p>
+</div>
+
+<audio id="bgMusic" autoplay loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+/* REMOVE INTRO AFTER 3 SECONDS */
+setTimeout(()=>{
+  document.getElementById("intro").style.display="none";
+},3000);
+
+/* AUTO SLIDE */
+let index=0;
+const slider=document.getElementById("slider");
+
+setInterval(()=>{
+  index++;
+  if(index>=6) return;
+  slider.style.transform=`translateX(-${index*100}vw)`;
+},5000);
+
+/* COUNTER */
+const start=new Date("2022-01-29");
+const today=new Date();
+const days=Math.floor((today-start)/(1000*60*60*24));
+document.getElementById("counter").innerText=
+  `We've been making memories for ${days} days 💕`;
+
+/* SHRINK NO / GROW YES */
+let scaleNo=1, scaleYes=1;
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
+
+noBtn.addEventListener("mouseover",()=>{
+  scaleNo-=0.1;
+  scaleYes+=0.1;
+  if(scaleNo<0.2) scaleNo=0.2;
+  noBtn.style.transform=`scale(${scaleNo})`;
+  yesBtn.style.transform=`scale(${scaleYes})`;
+});
+
+/* YES EXPLOSION */
+yesBtn.addEventListener("click",()=>{
+  document.getElementById("yesExplosion").classList.add("show");
+
+  for(let i=0;i<200;i++){
+    const el=document.createElement("div");
+    el.className="fall";
+    el.innerText=Math.random()>0.5?"🌹":"✨";
+    el.style.left=Math.random()*100+"vw";
+    el.style.animationDuration=3+Math.random()*3+"s";
+    document.body.appendChild(el);
+  }
+});
+</script>
+
+</body>
+</html>
