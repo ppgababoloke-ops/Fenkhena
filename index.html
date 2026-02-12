@@ -6,13 +6,9 @@
 <title>For Fenkhena 💖</title>
 
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
+*{margin:0;padding:0;box-sizing:border-box}
 
-html, body{
+html,body{
   height:100%;
   overflow:hidden;
   font-family:'Segoe UI',sans-serif;
@@ -25,12 +21,11 @@ html, body{
   position:fixed;
   bottom:-20px;
   font-size:18px;
-  opacity:0.35;
+  opacity:.35;
   animation:floatUp linear infinite;
   pointer-events:none;
   z-index:0;
 }
-
 @keyframes floatUp{
   from{transform:translateY(0)}
   to{transform:translateY(-120vh)}
@@ -47,20 +42,13 @@ html, body{
   justify-content:center;
   z-index:9999;
 }
-
-#intro h2{
-  font-size:1rem;
-  letter-spacing:4px;
-  opacity:.7;
-}
-
+#intro h2{font-size:1rem;letter-spacing:4px;opacity:.7}
 #intro h1{
   font-size:3rem;
   color:#ff004c;
   letter-spacing:6px;
   margin:10px 0 30px 0;
 }
-
 #startBtn{
   padding:18px 45px;
   font-size:1.3rem;
@@ -71,10 +59,7 @@ html, body{
   cursor:pointer;
   transition:.3s;
 }
-
-#startBtn:hover{
-  transform:scale(1.1);
-}
+#startBtn:hover{transform:scale(1.1)}
 
 /* SLIDER */
 #slider{
@@ -85,7 +70,6 @@ html, body{
   position:relative;
   z-index:1;
 }
-
 .slide{
   width:100vw;
   height:100vh;
@@ -97,7 +81,6 @@ html, body{
   text-align:center;
   padding:40px;
 }
-
 .slide img,
 .slide video{
   width:320px;
@@ -107,36 +90,23 @@ html, body{
   box-shadow:0 20px 60px rgba(0,0,0,.6);
 }
 
-/* Bigger Verse */
+/* GLOWING VERSE */
 .verse-slide p{
   font-size:2rem;
   line-height:1.6;
   max-width:800px;
+  text-shadow:0 0 10px #ff8ec7,
+              0 0 20px #ff5f9e,
+              0 0 40px rgba(255,95,158,.7);
 }
 
 /* Final slide */
 .final{
   background:linear-gradient(135deg,#ff5f9e,#ff9a9e);
 }
-
-h1{
-  font-size:2.6rem;
-  margin-bottom:20px;
-}
-
-.final h1{
-  font-size:1.7rem;
-}
-
-.final h2{
-  font-size:1.2rem;
-  margin-top:10px;
-}
-
-#counter{
-  margin:15px 0 10px 0;
-  font-size:1rem;
-}
+.final h1{font-size:1.7rem}
+.final h2{font-size:1.2rem;margin-top:10px}
+#counter{margin:15px 0 10px 0;font-size:1rem}
 
 .button-row{
   display:flex;
@@ -144,7 +114,6 @@ h1{
   margin-top:15px;
   margin-bottom:80px;
 }
-
 button{
   padding:12px 30px;
   font-size:1rem;
@@ -153,16 +122,8 @@ button{
   cursor:pointer;
   transition:.3s;
 }
-
-#yesBtn{
-  background:white;
-  color:#ff5f9e;
-}
-
-#noBtn{
-  background:rgba(255,255,255,.9);
-  color:#333;
-}
+#yesBtn{background:white;color:#ff5f9e}
+#noBtn{background:rgba(255,255,255,.9);color:#333}
 
 /* Explosion Screen */
 #yesExplosion{
@@ -178,32 +139,38 @@ button{
   transition:1s;
   z-index:9998;
 }
-
 #yesExplosion.show{
   opacity:1;
   pointer-events:auto;
 }
-
 #yesExplosion h1{
   font-size:3.5rem;
   text-shadow:0 0 25px white;
 }
 
-/* Fireworks + petals */
+/* CONFETTI */
 .confetti{
   position:fixed;
-  font-size:22px;
-  opacity:1;
-  transition:1.5s ease-out;
+  font-size:24px;
+  pointer-events:none;
+  z-index:9997;
+  animation:confettiMove 1.5s ease-out forwards;
+}
+@keyframes confettiMove{
+  to{
+    transform:translate(var(--x), var(--y));
+    opacity:0;
+  }
 }
 
+/* Falling petals */
 .fall{
   position:fixed;
   top:-20px;
   font-size:20px;
   animation:fall linear forwards;
+  z-index:9996;
 }
-
 @keyframes fall{
   to{transform:translateY(120vh)}
 }
@@ -325,21 +292,41 @@ document.getElementById("startBtn").addEventListener("click",()=>{
   },5000);
 });
 
-/* YES CLICK */
-document.getElementById("yesBtn").addEventListener("click",()=>{
+/* Shrink No / Grow Yes (RESTORED) */
+let scaleNo=1;
+let scaleYes=1;
 
-  /* Firework burst */
-  for(let i=0;i<100;i++){
+const noBtn=document.getElementById("noBtn");
+const yesBtn=document.getElementById("yesBtn");
+
+noBtn.addEventListener("mouseover",()=>{
+  scaleNo -= 0.1;
+  scaleYes += 0.1;
+
+  if(scaleNo < 0.3) scaleNo = 0.3;
+
+  noBtn.style.transform = `scale(${scaleNo})`;
+  yesBtn.style.transform = `scale(${scaleYes})`;
+});
+
+/* YES CLICK = CONFETTI */
+yesBtn.addEventListener("click",()=>{
+
+  /* Fireworks burst */
+  for(let i=0;i<120;i++){
     const conf=document.createElement("div");
     conf.className="confetti";
     conf.innerText="🎆";
+
     conf.style.left="50vw";
     conf.style.top="50vh";
 
-    const x=(Math.random()*800-400);
-    const y=(Math.random()*600-300);
+    const x=(Math.random()*900-450)+"px";
+    const y=(Math.random()*700-350)+"px";
 
-    conf.style.transform=`translate(${x}px, ${y}px)`;
+    conf.style.setProperty("--x", x);
+    conf.style.setProperty("--y", y);
+
     document.body.appendChild(conf);
 
     setTimeout(()=>conf.remove(),1500);
@@ -357,12 +344,12 @@ document.getElementById("yesBtn").addEventListener("click",()=>{
     setTimeout(()=>el.remove(),6000);
   }
 
-  /* Show explosion screen slightly after */
+  /* Show explosion slightly after */
   setTimeout(()=>{
     document.getElementById("yesExplosion").classList.add("show");
   },600);
-});
 
+});
 </script>
 
 </body>
